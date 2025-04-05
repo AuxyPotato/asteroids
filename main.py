@@ -34,13 +34,19 @@ def main():
 
         screen.fill(color=(0, 0, 0))
         updatable.update(dt)
+
         for asteroid in asteroids:
             if asteroid.collide(player):
                 print("Game over!")
                 sys.exit()
+            for shot in shots:
+                if shot.collide(asteroid):
+                    asteroid.split()
+                    shot.kill()
 
         for item in drawable:
             item.draw(screen)
+
         pygame.display.flip()
         dt = clock.tick(60) / 1000
 
