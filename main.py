@@ -12,17 +12,17 @@ from shot import Shot
 
 def main():
     """Main entry point of the program."""
-    initialize()
+    initialize_pygame()
     screen = set_screen()
     clock, dt = set_clock()
     updatable, drawable, asteroids, shots = create_groups()
     set_groups(updatable, drawable, asteroids, shots)
     player = spawn_player()
     spawn_asteroids()
-    gameloop(screen, dt, updatable, drawable, asteroids, shots, player, clock)
+    game_loop(screen, dt, updatable, drawable, asteroids, shots, player, clock)
 
 
-def initialize():
+def initialize_pygame():
     pygame.init()
 
 
@@ -58,19 +58,21 @@ def spawn_asteroids():
     AsteroidField()
 
 
-def gameloop(screen, dt, updatable, drawable, asteroids, shots, player, clock):
+def game_loop(screen, dt, updatable, drawable, asteroids, shots, player, clock):
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pass
 
         screen.fill(color=(0, 0, 0))
         updatable.update(dt)
 
         for asteroid in asteroids:
             if asteroid.collide(player):
-                print("Game over!")
-                sys.exit()
+                game_over()
             for shot in shots:
                 if shot.collide(asteroid):
                     asteroid.split()
@@ -82,6 +84,11 @@ def gameloop(screen, dt, updatable, drawable, asteroids, shots, player, clock):
         pygame.display.flip()
         dt = clock.tick(60) / 1000
 
+
+def game_over():
+    print("GAME OVER")
+    pygame.time.wait(1000)
+    sys.exit()
 
 if __name__ == "__main__":
     main()
