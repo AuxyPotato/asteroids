@@ -1,7 +1,11 @@
+# file that contains the circleshape class
+
 import pygame
 
 
 class CircleShape(pygame.sprite.Sprite):
+    """The main circle shape class used by other classes."""
+
     def __init__(self, x, y, radius):
         if hasattr(self, "containers"):
             super().__init__(self.containers)
@@ -21,3 +25,4 @@ class CircleShape(pygame.sprite.Sprite):
     def collide(self, other):
         return (self.position.distance_to(other.position)
                 <= (self.radius + other.radius))
+

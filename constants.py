@@ -1,3 +1,5 @@
+# file that contains all constants used in the asteroids project
+
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 

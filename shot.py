@@ -1,10 +1,14 @@
+# file that contains the shot class
+
 import pygame
 
-from circleshape import CircleShape
 from constants import SHOT_RADIUS
+from circleshape import CircleShape
 
 
 class Shot(CircleShape):
+    """A shot spawned at the players position."""
+
     def __init__(self, x, y):
         super().__init__(x, y, SHOT_RADIUS)
 
@@ -14,3 +18,4 @@ class Shot(CircleShape):
 
     def update(self, dt):
         self.position += self.velocity * dt
+

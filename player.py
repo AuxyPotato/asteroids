@@ -1,12 +1,16 @@
+# file that contains the player class
+
 import pygame
 
-from circleshape import CircleShape
-from shot import Shot
 from constants import (PLAYER_RADIUS, PLAYER_ROTATION_SPEED, PLAYER_SPEED,
                        PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN)
+from circleshape import CircleShape
+from shot import Shot
 
 
 class Player(CircleShape):
+    """The player class."""
+
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
@@ -25,6 +29,21 @@ class Player(CircleShape):
         pygame.draw.polygon(screen, (255, 255, 255),
                             self.triangle(), 2)
 
+    def update(self, dt):
+        self.cooldown -= dt
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_a]:
+            self.rotate(-dt)
+        if keys[pygame.K_d]:
+            self.rotate(dt)
+        if keys[pygame.K_w]:
+            self.move(dt)
+        if keys[pygame.K_s]:
+            self.move(-dt)
+        if keys[pygame.K_SPACE]:
+            self.shoot()
+
     def rotate(self, dt):
         self.rotation += (PLAYER_ROTATION_SPEED * dt)
 
@@ -40,17 +59,3 @@ class Player(CircleShape):
         shot.velocity = (pygame.Vector2(0, 1).rotate(self.rotation)
                          * PLAYER_SHOOT_SPEED)
 
-    def update(self, dt):
-        self.cooldown -= dt
-        keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_a]:
-            self.rotate(-dt)
-        if keys[pygame.K_d]:
-            self.rotate(dt)
-        if keys[pygame.K_w]:
-            self.move(dt)
-        if keys[pygame.K_s]:
-            self.move(-dt)
-        if keys[pygame.K_SPACE]:
-            self.shoot()
